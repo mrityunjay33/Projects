@@ -1,0 +1,7 @@
+tasks:
+  - init: |
+      apt -y install haproxy dnsutils
+      pip install flask
+ports:
+  - port: 3000
+    onOpen: open-preview

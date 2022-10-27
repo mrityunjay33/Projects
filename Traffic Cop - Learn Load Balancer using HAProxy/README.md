@@ -1,3 +1,7 @@
+# Try on Gitpod
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jnana-cetana/System-Design)
+
 # Introduction
 
 How does Google manage to respond to our query within seconds? Good question! Most users of the web are unaware of the sheer scale of the search engine responsible for bringing content across the Internet. The boom in the digital revolution has resulted in increased usage of the Internet with Google facing the heat of the increasing demand in terms of million requests per second to serve their loyal customers.
@@ -20,7 +24,7 @@ Members of a certain group — such as ‘people living in Europe’, for exampl
 In this Micro-byte, we will learn how to balance the load between Applications using HAProxy using different available strategies. So let's dive in !!!
 
 
-# Pre-Requisites
+# Pre-Requisites ( Not required if on GitPod )
 
 Before starting, make sure you are logged in as a user with sudo privileges on your Linux machine and you don’t have Apache or any other web server running on port 80 or 443.
 
@@ -173,9 +177,17 @@ Instead of using default config file we'll create a new configuration file.
 ### Activity 3.1
 ---
 
-> Copy the file from src/activity-3/myhaproxy.cfg and fill the require data as mentioned.
+> Copy the file from src/activity-3/myhaproxy.cfg into the suitable location whichever you prefer and add the ip:port combination of other running python servers. For eg:-
+```
+backend application_nodes
+    balance roundrobin
+    server server01 localhost:8080
+    server server02 localhost:8081
+    server server02 localhost:8082
+    server server02 localhost:8083
+```
 
-- After the required data is filled, start the load balancer with the command mentioned above.
+- After the required configuration is changed, open a new terminal and start the load balancer with the command mentioned above. For reference:- `haproxy -f < Absolute Path of haproxy configuration >`
 - Head to the browser and type `localhost:3000` and keep on refreshing and note down the results.
 
 You might notice that the response is served from different application servers.
@@ -185,7 +197,7 @@ You might notice that the response is served from different application servers.
 ## Activity 3.2
 ---
 - Change ` server server01 localhost:8080 ` to ` server server01 localhost:8080 weight 4 ` in the configuration file.
-- Similarly append `" weight < Any number > ( For now only add 1 ) " ` to all the backend application nodes.
+- Similarly append `" weight < Any number > "` ( For now specify 1 ) to all the backend application nodes.
 - Head to the browser and type `localhost:3000` and keep on refreshing and note down the results.
 
 <details>
@@ -225,6 +237,9 @@ Start by bombarding google "How to perform health `check` in HAProxy?".
  </details>
 Once you find that keyword, append it to each of the application server nodes in the configuration.
 
+- Change ` server server01 localhost:8080 weight 4` to ` server server01 localhost:8080 weight 4 check` in the configuration file.
+- Similarly append `"check"` to all the backend application nodes.
+- Head to the browser and type `localhost:3000` and keep on refreshing and note down the results.
 
 Now HAproxy will keep on polling to the servers to `check` whether it is alive or not and add or remove the server IP from the round robin list.
 
@@ -241,8 +256,8 @@ Now HAproxy will keep on polling to the servers to `check` whether it is alive o
 
 - It enables you to monitor traffic patterns and provides you with insight into the time of day your system is used and respond to spikes in demand so you can provision capacity appropriately.  
 
->Comment out the lines after `#> listen- combine both backend and frontend (Optional)` to enable statistics page.
--  Head to the browser and type `localhost:83` to view stats page.
+>Uncomment the lines after `#> Stats Page` to enable statistics page.
+-  Head to the browser and type `localhost:8404` to view stats page.
 - Play around with the stats page by making requests to localhost:3000 or killing and re-spawning the server. The realtime data will be reflected on the stats page.
 
 ## Mega-Challenge:-
