@@ -1,6 +1,6 @@
 tasks:
   - init: |
-      apt -y install haproxy dnsutils
+      sudo apt -y install haproxy dnsutils
       pip install flask
 ports:
   - port: 3000
