@@ -181,14 +181,14 @@ Instead of using default config file we'll create a new configuration file.
 ```
 backend application_nodes
     balance roundrobin
-    server server01 localhost:8080
-    server server02 localhost:8081
-    server server02 localhost:8082
-    server server02 localhost:8083
+    server server01 127.0.0.1:8080
+    server server02 127.0.0.1:8081
+    server server02 127.0.0.1:8082
+    server server02 127.0.0.1:8083
 ```
 
 - After the required configuration is changed, open a new terminal and start the load balancer with the command mentioned above. For reference:- `haproxy -f < Absolute Path of haproxy configuration >`
-- Head to the browser and type `localhost:3000` and keep on refreshing and note down the results.
+- Head to the browser and type `127.0.0.1:3000` and keep on refreshing and note down the results.
 
 You might notice that the response is served from different application servers.
 
@@ -196,9 +196,9 @@ You might notice that the response is served from different application servers.
 
 ## Activity 3.2
 ---
-- Change ` server server01 localhost:8080 ` to ` server server01 localhost:8080 weight 4 ` in the configuration file.
+- Change ` server server01 127.0.0.1:8080 ` to ` server server01 127.0.0.1:8080 weight 4 ` in the configuration file.
 - Similarly append `" weight < Any number > "` ( For now specify 1 ) to all the backend application nodes.
-- Head to the browser and type `localhost:3000` and keep on refreshing and note down the results.
+- Head to the browser and type `127.0.0.1:3000` and keep on refreshing and note down the results.
 
 <details>
 <summary>Expand to know if you saw something strange.</summary>
@@ -212,7 +212,7 @@ Where does this strategy helps? Good question.
 ### Activity 3.3
 ---
 - Kill one of the server by sending a  `Ctrl + C` signal through shell.
-- Head to the browser and type `localhost:3000` and keep on refreshing and note down the results.
+- Head to the browser and type `127.0.0.1:3000` and keep on refreshing and note down the results.
 
 <details>
 <summary>Expand to know if you saw something strange.</summary>
@@ -237,9 +237,9 @@ Start by bombarding google "How to perform health `check` in HAProxy?".
  </details>
 Once you find that keyword, append it to each of the application server nodes in the configuration.
 
-- Change ` server server01 localhost:8080 weight 4` to ` server server01 localhost:8080 weight 4 check` in the configuration file.
+- Change ` server server01 127.0.0.1:8080 weight 4` to ` server server01 127.0.0.1:8080 weight 4 check` in the configuration file.
 - Similarly append `"check"` to all the backend application nodes.
-- Head to the browser and type `localhost:3000` and keep on refreshing and note down the results.
+- Head to the browser and type `127.0.0.1:3000` and keep on refreshing and note down the results.
 
 Now HAproxy will keep on polling to the servers to `check` whether it is alive or not and add or remove the server IP from the round robin list.
 
@@ -257,8 +257,8 @@ Now HAproxy will keep on polling to the servers to `check` whether it is alive o
 - It enables you to monitor traffic patterns and provides you with insight into the time of day your system is used and respond to spikes in demand so you can provision capacity appropriately.  
 
 >Uncomment the lines after `#> Stats Page` to enable statistics page.
--  Head to the browser and type `localhost:8404` to view stats page.
-- Play around with the stats page by making requests to localhost:3000 or killing and re-spawning the server. The realtime data will be reflected on the stats page.
+-  Head to the browser and type `127.0.0.1:8404` to view stats page.
+- Play around with the stats page by making requests to 127.0.0.1:3000 or killing and re-spawning the server. The realtime data will be reflected on the stats page.
 
 ## Mega-Challenge:-
 > Try out load balancing with actual cloud instances of server from AWS, GCP whichever you prefer.
